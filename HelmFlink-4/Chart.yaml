@@ -1,0 +1,4 @@
+apiVersion: v2
+name: flink
+description: A Helm chart for deploying Flink clusters
+version: 0.1.0

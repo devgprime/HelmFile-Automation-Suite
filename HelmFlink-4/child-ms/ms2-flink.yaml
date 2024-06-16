@@ -1,0 +1,18 @@
+ms2:
+  spec:
+    flinkConfiguration:
+      taskmanager.numberOfTaskSlots: "98765"
+      heartbeat.timeout: "50"
+      taskmanager.memory.task.off-heap.size: "128m"
+      taskmanager.memory.jvm-metaspace.size: "1024m"
+      restart-strategy.type: exponential-blaze
+    job:  
+      args: [--inputJson /flink-json-configs/ECDS/4G/ecds-carrierkpis-7g-killerue.json]
+      entryClass: com.vzw.aggregator.Aggregator_v2
+      jarURI: local:///opt/flink/usrlib/flinkaggregator-bundled-0.7.jar
+      parallelism: 4
+      upgradeMode: statefull
+    logConfiguration:
+      "log4j-console.properties": |
+        rootLogger.level = WARN
+        rootLogger.appenderRef.console.ref = LogConsole

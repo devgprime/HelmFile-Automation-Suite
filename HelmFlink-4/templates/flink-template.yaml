@@ -1,0 +1,45 @@
+{{- $msName := .Release.Name }}
+apiVersion: {{ index .Values.default $msName "apiVersion" }}
+kind: {{ index .Values.default $msName "kind" }}
+metadata:
+  name: {{ index .Values.default $msName "metadata" "name" }}
+  namespace: {{ index .Values.default $msName "metadata" "namespace" }}
+spec:
+  image: {{ index .Values.default $msName "spec" "image" }}
+  flinkVersion: {{ index .Values.default $msName "spec" "flinkVersion" }}
+  flinkConfiguration:{{ include "mergeFlinkConfig" (dict "Values" .Values "Release" .Release) }}
+  serviceAccount: {{ index .Values.default $msName "serviceAccount" }}
+  podTemplate:
+    apiVersion: {{ index .Values.default $msName "spec" "podTemplate" "apiVersion" }}
+    kind: {{ index .Values.default $msName "spec" "podTemplate" "kind" }}
+    metadata:
+      labels:
+        app: {{ index .Values.default $msName "metadata" "name" }}
+      name: flink-{{ index .Values.default $msName "metadata" "name" }}
+    spec:
+      containers:
+        - name: flink-main-container
+          imagePullPolicy: {{ index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "imagePullPolicy" }} 
+          envFrom:
+             {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "envFrom") | nindent 12 }}
+          env:
+            - name: FLINK_JOB_NAME
+              value: {{ index .Values.default $msName "metadata" "name" }}
+          volumeMounts:
+              {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "volumeMounts") | nindent 12 }}
+      volumes:
+        {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "volumes") | nindent 8 }}
+  jobManager:
+    resource:
+      memory: {{ index .Values.default $msName "spec" "jobManager" "resource" "memory" }}
+      cpu: {{ index .Values.default $msName "spec" "jobManager" "resource" "cpu" }}
+  taskManager:
+    resource:
+      memory: {{ index .Values.default $msName "spec" "taskManager" "resource" "memory" }}
+      cpu: {{ index .Values.default $msName "spec" "taskManager" "resource" "cpu" }}
+  job:{{ include "mergeJobConfig" (dict "Values" .Values "Release" .Release) | indent 2 }}
+
+
+
+
+

@@ -1,0 +1,13 @@
+# helmfile.yaml
+releases:
+  - name: ms1
+    chart: ./
+    values:
+      - values.yaml
+      - child-ms/ms1-flink.yaml
+
+  - name: ms2
+    chart: ./
+    values:
+      - values.yaml
+      - child-ms/ms2-flink.yaml
