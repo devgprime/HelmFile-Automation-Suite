@@ -1,5 +1,5 @@
 default:
-  ms1:
+  ms:
     apiVersion: flink.k8s.io/v1alpha1
     kind: FlinkDeployment
     metadata:
