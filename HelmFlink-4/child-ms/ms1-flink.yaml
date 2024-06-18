@@ -1,13 +1,18 @@
 ms1:
   spec:
-    flinkVersion: v1_1989898
-    taskmanager.numberOfTaskSlots: "10"
-    heartbeat.timeout: "50000"
-    taskmanager.memory.task.off-heap.size: "128m"
-    taskmanager.memory.jvm-metaspace.size: "1024m"
-    restart-strategy.type: exponential-delay
-    restart-strategy.exponential-delay.backoff-multiplier: "2.0"
-    restart-strategy.exponential-delay.initial-backoff: "1 s"
-    restart-strategy.exponential-delay.jitter-factor: "0.1"
-    restart-strategy.exponential-delay.max-backoff: "5 min"
-    restart-strategy.exponential-delay.reset-backoff-threshold: "30 min"
+    flinkConfiguration:
+      taskmanager.numberOfTaskSlots: "1111"
+      heartbeat.timeout: "11"
+      taskmanager.memory.task.off-heap.size: "111"
+      taskmanager.memory.jvm-metaspace.size: "1024m"
+      restart-strategy.type: exponential-blazerr-1111
+    job:  
+      args: [--inputJson /flink-json-configs/ECDS/4G/ecds-carrierkpis-7g-killerue.json]
+      entryClass: com.vzw.aggregator.Aggregator_v2
+      jarURI: local:///opt/flink/usrlib/flinkaggregator-bundled-0.21117.jar
+      parallelism: 4
+      upgradeMode: statefull
+    logConfiguration:
+      "log4j-console.properties": |
+        rootLogger.level = WARN
+        rootLogger.appenderRef.console.ref = LogConsole

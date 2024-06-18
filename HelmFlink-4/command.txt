@@ -3,7 +3,7 @@ Command to use for template generation
 helm template ms1 . --values values.yaml --values child-ms/ms1-flink.yaml > finalms1.yaml
 
 
-helm template ms2 . --values values.yaml --values child-ms/ms6-flink.yaml > finalms2.yaml
+helm template ms . --values values.yaml --values child-ms/ms2-flink.yaml > finalms2.yaml
 
 
 

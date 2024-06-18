@@ -1,42 +1,42 @@
 {{- $msName := .Release.Name }}
-apiVersion: {{ index .Values.default $msName "apiVersion" }}
-kind: {{ index .Values.default $msName "kind" }}
+apiVersion: {{ index .Values.default "ms" "apiVersion" }}
+kind: {{ index .Values.default "ms" "kind" }}
 metadata:
-  name: {{ index .Values.default $msName "metadata" "name" }}
-  namespace: {{ index .Values.default $msName "metadata" "namespace" }}
+  name: {{ index .Values.default "ms" "metadata" "name" }}
+  namespace: {{ index .Values.default "ms" "metadata" "namespace" }}
 spec:
-  image: {{ index .Values.default $msName "spec" "image" }}
-  flinkVersion: {{ index .Values.default $msName "spec" "flinkVersion" }}
+  image: {{ index .Values.default "ms" "spec" "image" }}
+  flinkVersion: {{ index .Values.default "ms" "spec" "flinkVersion" }}
   flinkConfiguration:{{ include "mergeFlinkConfig" (dict "Values" .Values "Release" .Release) }}
-  serviceAccount: {{ index .Values.default $msName "serviceAccount" }}
+  serviceAccount: {{ index .Values.default "ms" "serviceAccount" }}
   podTemplate:
-    apiVersion: {{ index .Values.default $msName "spec" "podTemplate" "apiVersion" }}
-    kind: {{ index .Values.default $msName "spec" "podTemplate" "kind" }}
+    apiVersion: {{ index .Values.default "ms" "spec" "podTemplate" "apiVersion" }}
+    kind: {{ index .Values.default "ms" "spec" "podTemplate" "kind" }}
     metadata:
       labels:
-        app: {{ index .Values.default $msName "metadata" "name" }}
-      name: flink-{{ index .Values.default $msName "metadata" "name" }}
+        app: {{ index .Values.default "ms" "metadata" "name" }}
+      name: flink-{{ index .Values.default "ms" "metadata" "name" }}
     spec:
       containers:
         - name: flink-main-container
-          imagePullPolicy: {{ index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "imagePullPolicy" }} 
+          imagePullPolicy: {{ index .Values.default "ms" "spec" "podTemplate" "spec" "containers" 0 "imagePullPolicy" }} 
           envFrom:
-             {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "envFrom") | nindent 12 }}
+             {{- toYaml (index .Values.default "ms" "spec" "podTemplate" "spec" "containers" 0 "envFrom") | nindent 12 }}
           env:
             - name: FLINK_JOB_NAME
-              value: {{ index .Values.default $msName "metadata" "name" }}
+              value: {{ index .Values.default "ms" "metadata" "name" }}
           volumeMounts:
-              {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "containers" 0 "volumeMounts") | nindent 12 }}
+              {{- toYaml (index .Values.default "ms" "spec" "podTemplate" "spec" "containers" 0 "volumeMounts") | nindent 12 }}
       volumes:
-        {{- toYaml (index .Values.default $msName "spec" "podTemplate" "spec" "volumes") | nindent 8 }}
+        {{- toYaml (index .Values.default "ms" "spec" "podTemplate" "spec" "volumes") | nindent 8 }}
   jobManager:
     resource:
-      memory: {{ index .Values.default $msName "spec" "jobManager" "resource" "memory" }}
-      cpu: {{ index .Values.default $msName "spec" "jobManager" "resource" "cpu" }}
+      memory: {{ index .Values.default "ms" "spec" "jobManager" "resource" "memory" }}
+      cpu: {{ index .Values.default "ms" "spec" "jobManager" "resource" "cpu" }}
   taskManager:
     resource:
-      memory: {{ index .Values.default $msName "spec" "taskManager" "resource" "memory" }}
-      cpu: {{ index .Values.default $msName "spec" "taskManager" "resource" "cpu" }}
+      memory: {{ index .Values.default "ms" "spec" "taskManager" "resource" "memory" }}
+      cpu: {{ index .Values.default "ms" "spec" "taskManager" "resource" "cpu" }}
   job:{{ include "mergeJobConfig" (dict "Values" .Values "Release" .Release) | indent 2 }}
 
 

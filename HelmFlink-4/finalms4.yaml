@@ -9,16 +9,16 @@ spec:
   image: gulv-space-rtt-docker-np.oneartifactoryci.verizon.com/space-rtt-foa/rttflink:dev
   flinkVersion: v1_18
   flinkConfiguration:
-    heartbeat.timeout: 11
+    heartbeat.timeout: 550
     restart-strategy.exponential-delay.backoff-multiplier: 2.0
     restart-strategy.exponential-delay.initial-backoff: 1 s
     restart-strategy.exponential-delay.jitter-factor: 0.1
     restart-strategy.exponential-delay.max-backoff: 5 min
     restart-strategy.exponential-delay.reset-backoff-threshold: 30 min
-    restart-strategy.type: exponential-blazerr-1111
+    restart-strategy.type: exponential-blazerr
     taskmanager.memory.jvm-metaspace.size: 1024m
-    taskmanager.memory.task.off-heap.size: 111
-    taskmanager.numberOfTaskSlots: 1111
+    taskmanager.memory.task.off-heap.size: 128m
+    taskmanager.numberOfTaskSlots: 44444
   serviceAccount: 
   podTemplate:
     apiVersion: v1
@@ -59,6 +59,6 @@ spec:
   job:  
     args: [--inputJson /flink-json-configs/ECDS/4G/ecds-carrierkpis-7g-killerue.json]
     entryClass: com.vzw.aggregator.Aggregator_v2
-    jarURI: local:///opt/flink/usrlib/flinkaggregator-bundled-0.21117.jar
+    jarURI: local:///opt/flink/usrlib/flinkaggregator-bundled-0.27.jar
     parallelism: 4
     upgradeMode: statefull
