@@ -1,6 +1,6 @@
 aggregator_5g:
-  enabled: true    
+  enabled: false    
 aggregator_6g:
-  enabled: true
-aggregator_alarm:
   enabled: false
+aggregator_alarm:
+  enabled: true

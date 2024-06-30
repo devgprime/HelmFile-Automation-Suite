@@ -1,19 +1,16 @@
 {{- if .Values.app.pvc }}
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.app.pvc.metadata.name }}
+  name: {{ template "name.release" . }}
   labels:
-    app: {{ .Values.app.pvc.metadata.label }}
+    app: {{ template "name.chart" . }}
     chart: {{ template "name.chartid" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   accessModes:
-    {{- range .Values.app.pvc.accessModes }}
-      - {{ . }}
-    {{- end }}
+    - {{ .Values.app.pvc.accessMode }}
   resources:
     requests:
       storage: {{ .Values.app.pvc.storage }}

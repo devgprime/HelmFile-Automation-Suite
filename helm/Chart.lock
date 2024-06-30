@@ -1,6 +1,0 @@
-dependencies:
-- name: flink
-  repository: file://charts/flink
-  version: 0.4.9
-digest: sha256:e2ec88dd68b859a1ff84a0dfdfb14859f62a3e983742aebb38716780b2195f86
-generated: "2024-06-21T10:30:16.0373104-05:00"

@@ -8,17 +8,10 @@
 #       For now, ingress is disabled.
 #
 aggregator_5g:
-  enabled: true
+  enabled: false
   ingress:
     enabled: true
     clustersuffix: apps.nsos-sdsd-dev3.nss.vzwnet.com
-  flinkConfiguration:
-  #kubernetes.cluster-id: mni-carrieragg4g-alarms
-    metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
-    high-availability.type: KUBER
-    high-availability.storageDir: /app/flink
-    job.autoscaler.target.utilization: '0.77'
-    job.autoscaler.target.utilization.boundary: '0.1'    
 
   debug:
     enabled: false # Not supported

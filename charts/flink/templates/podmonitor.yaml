@@ -3,18 +3,16 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: {{ .Values.app.podmonitor.metadata.name }}
+  name: {{ template "name.release" . }}-pm
   labels:
-    app: {{ .Values.app.podmonitor.metadata.labels.app }}
+    app: {{ template "name.chart" . }}
     chart: {{ template "name.chartid" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   namespaceSelector:
     matchNames:
-    {{- range .Values.app.podmonitor.matchnamespace }}
-      - {{ . }}
-    {{- end }}
+      - {{ .Values.app.podmonitor.matchnamespace }}
   podMetricsEndpoints:
     - path: /metrics
       relabelings:
@@ -25,5 +23,5 @@ spec:
           targetLabel: __address__
   selector:
     matchLabels:
-      app: {{.Values.app.podmonitor.metadata.labels.app }}
+{{- include "meta.labels" . | indent 6 }}
 {{- end }}
