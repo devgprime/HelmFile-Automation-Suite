@@ -1,0 +1,29 @@
+{{- if .Values.app.podmonitor }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Values.app.podmonitor.metadata.name }}
+  labels:
+    app: {{ .Values.app.podmonitor.metadata.labels.app }}
+    chart: {{ template "name.chartid" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  namespaceSelector:
+    matchNames:
+    {{- range .Values.app.podmonitor.matchnamespace }}
+      - {{ . }}
+    {{- end }}
+  podMetricsEndpoints:
+    - path: /metrics
+      relabelings:
+        - action: replace
+          replacement: '$1:9249'
+          sourceLabels:
+            - __meta_kubernetes_pod_ip
+          targetLabel: __address__
+  selector:
+    matchLabels:
+      app: {{.Values.app.podmonitor.metadata.labels.app }}
+{{- end }}

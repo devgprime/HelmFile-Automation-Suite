@@ -1,0 +1,15 @@
+
+# Allow external traffic to reach this service via a (cluster provided) ingress controller.
+# https://wikitech.wikimedia.org/wiki/Kubernetes/Ingress#Configuration_(for_service_owners)
+#
+# TODO: In the future, we'd like to configure ingress to JobManager UI on the JobManager pods only.
+#       See ideas for doing this here:
+#       https://phabricator.wikimedia.org/T324576#8498319
+#       For now, ingress is disabled.
+#
+ingress:
+  enabled: true
+  clustersuffix: apps.nsos-h4xv-cosp-dev3.nss.vzwnet.com
+
+debug:
+  enabled: false # Not supported
