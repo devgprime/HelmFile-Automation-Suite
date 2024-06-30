@@ -1,11 +1,8 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
-  {{- with .Values.metadata | default dict }}  
-    {{- toYaml . | nindent 2 }}               
-  {{- else }}                                 
-    {{- include "meta.metadata" (dict "Root" .) | indent 2 }}  
-  {{- end }}
+  {{- include "meta.metadata" (dict "Root" .) | indent 2 }}
+
 spec:
   image: {{ .Values.app.image }}:{{ .Values.app.version }}
   imagePullPolicy: {{ .Values.docker.pull_policy }}
@@ -14,7 +11,7 @@ spec:
   ingress:
     annotations:
       route.openshift.io/termination: edge  
-    template: "{{ template "name.chartid" . }}.{{ (index .Values.app.podmonitor.matchnamespace 0) }}.{{ .Values.ingress.clustersuffix }}"
+    template: "{{- include "meta.name" (dict "Root" .) }}-{{.Values.app.podmonitor.matchnamespace }}.{{.Values.ingress.clustersuffix}}"  
   {{ end }}
   # mode: native
   {{- /*
@@ -66,8 +63,7 @@ spec:
     kind: Pod
     metadata:
       labels:
-        app: {{ .Values.metadata.name }}
-      name: {{ .Values.metadata.name }}  
+        {{- include "meta.pod_labels" . | indent 8 }}
       annotations:
         {{- include "meta.pod_annotations" . | indent 8 }}
     {{- if or .Values.app.env .Values.app.config_files }}

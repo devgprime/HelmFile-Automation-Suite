@@ -16,9 +16,6 @@ aggregator_5g:
     namespace: gulv-dev-aggregator  
   app:
     image: gulv-space-rtt-docker-np.oneartifactoryci.verizon.com/space-rtt-foa/rttflink:dev
-    ingress:
-      enabled: true
-      clustersuffix: apps.nsos-h4xv-cosp-dev3.nss.vzwnet.com
     flinkConfiguration:
     #kubernetes.cluster-id: mni-carrieragg4g-alarms
       taskmanager.memory.managed.size: "2gb"
@@ -118,13 +115,44 @@ aggregator_6g:
 
   debug:
     enabled: false # Not supported
+
+    
 aggregator_alarm:
-  chartName: ecds-pnw-carrier4g-alarms-threshold-hourl
-  app:
-    image: ganesh1
   ingress:
     enabled: true
     clustersuffix: apps.nsos-h4xv-cosp-dev3.nss.vzwnet.com
+  metadata:
+    name: ecds-carrieragg4g-region-prod
+    namespace: gulv-dev-aggregator  
+  app:
+    image: gulv-space-rtt-docker-np.oneartifactoryci.verizon.com/space-rtt-foa/rttflink:f9ebf657
+    flinkConfiguration:
+    #kubernetes.cluster-id: mni-carrieragg4g-alarms
+      taskmanager.numberOfTaskSlots: "10"
+      heartbeat.timeout: "50000"
+      kubernetes.jobmanager.cpu: '0.2'
+      kubernetes.jobmanager.cpu.limit-factor: '5.0'
+      kubernetes.taskmanager.cpu: '1'
+      kubernetes.taskmanager.cpu.limit-factor: '20'
+      metrics.reporter.prom.factory.class: org.apache.flink.metrics.prometheus.PrometheusReporterFactory
+      s3.endpoint: http://s3-nswest.nss.vzwnet.com
+      s3.path.style.access: "true"
 
-  debug:
-    enabled: false # Not supported
+    podmonitor:  
+      metadata:
+        name: ecds-carrieragg4g-region-prod
+        labels:
+          app: ecds-carrieragg4g-region-prod      
+      matchnamespace:
+        - gulv-dev-aggregator
+      podMetricsEndpoints:
+        - path: /metrics
+          relabelings:
+            - action: replace
+              replacement: '$1:9249'
+              sourceLabels:
+                - __meta_kubernetes_pod_ip
+              targetLabel: __address__
+      selector:
+        matchLabels:
+          app: ecds-carrieragg4g-region-prod
