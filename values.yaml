@@ -1,6 +1,8 @@
 aggregator_5g:
-  enabled: true    
+  enabled: false    
 aggregator_6g:
+  enabled: false
+ecds-pnw-carrierkpi-4g-stats-prod:
   enabled: true
 aggregator_alarm:
   enabled: false

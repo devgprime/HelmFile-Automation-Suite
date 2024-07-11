@@ -14,7 +14,7 @@ spec:
   ingress:
     annotations:
       route.openshift.io/termination: edge  
-    template: "{{ template "name.chartid" . }}.{{ (index .Values.app.podmonitor.matchnamespace 0) }}.{{ .Values.ingress.clustersuffix }}"
+    template: "{{ template "name.chartid" . }}-{{ (index .Values.app.podmonitor.matchnamespace 0) }}.{{ .Values.ingress.clustersuffix }}"
   {{ end }}
   # mode: native
   {{- /*

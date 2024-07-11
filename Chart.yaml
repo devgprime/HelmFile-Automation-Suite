@@ -19,5 +19,10 @@ dependencies:
 - name: flink
   version: 0.4.9
   repository: file://charts/flink
+  alias: ecds-pnw-carrierkpi-4g-stats-prod
+  condition: ecds-pnw-carrierkpi-4g-stats-prod.enabled
+- name: flink
+  version: 0.4.9
+  repository: file://charts/flink
   alias: aggregator_alarm
   condition: aggregator_alarm.enabled
